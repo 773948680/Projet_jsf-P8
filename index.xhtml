@@ -1,0 +1,142 @@
+ <!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+	
+	
+	<f:metadata>
+		<f:event listener="#{etudiantJSFManagedBean.chargerListeEtudiant}" type="preRenderView"></f:event>
+	</f:metadata>
+	
+	<h:head>
+	<h:link rel="Stylesheet" href="./ressources/css/boostrap.css"/>
+		<title>Facelet Title</title>
+	</h:head>
+	<h:body>
+		<h1>Liste des étudiants</h1>
+		<h:form>
+		<p:dataTable value="#{etudiantJSFManagedBean.listeEtudiant}" var="e">
+		<p:column>
+			<f:facet name="header">ID</f:facet>
+			#{e.id}
+		</p:column>
+		<p:column>
+			<f:facet name="header">Nom</f:facet>
+			#{e.nom}
+		</p:column>
+		<p:column>
+			<f:facet name="header">Prénom</f:facet>
+			#{e.prenom}
+		</p:column>
+		<p:column>
+			<f:facet name="header">Datenaiss</f:facet>
+			#{e.datenaiss}
+		</p:column>
+		<p:column>
+			<f:facet name="header">Opérations</f:facet>
+		
+			<h:commandLink value="Supprimer		|" 
+			onclick="if (!confirm('êtes-vous sûr de vouloir supprimer cette etudiant ?')) return false"
+			action="#{etudiantJSFManagedBean.supprimerEtudiant(e.id)}" /> 
+			
+			<h:commandLink action="#{etudiantJSFManagedBean.modifierEtudiant(e.id)}" value="	Mettre à jour" />
+		
+		</p:column>
+		
+		</p:dataTable>
+		</h:form>
+		<h1>Créer/Editer un Etudiant</h1>
+		<h:form id="form">
+		<p:panelGrid columns="2">
+				<p:outputLabel for="nom" value="Nom: "/>
+				<p:inputText value="#{etudiantJSFManagedBean.etudiant.nom}" id="nom" a:placeholder="Votre Nom:"/>
+				<p:outputLabel for="prenom" value="Prénom: "/>
+				<p:inputText value="#{etudiantJSFManagedBean.etudiant.prenom}" id="prenom" a:placeholder="Votre Prénom:"/>
+				<p:outputLabel for="datenaiss" value="Datenaiss: "/>
+				<p:inputText value="#{etudiantJSFManagedBean.etudiant.datenaiss}" id="datenaiss" a:placeholder="Votre date de naissance" />
+				
+				<h:commandButton action="#{etudiantJSFManagedBean.addEtudiant(etudiantJSFManagedBean.etudiant)}" value="Ajouter un Etudiant" />
+		</p:panelGrid>
+		</h:form><br /><br />
+		<p:editor value="Tests"></p:editor>
+		<br /><br />
+		<h1>AccordionPanel</h1>
+		<p:accordionPanel>
+			<p:tab title="First Tab Title">
+				<h:outputText value="Lorem" />
+				...More content for first tab
+			</p:tab>
+			<p:tab title="Second Tab Title">
+				<h:outputText value="Ipsum" />
+			</p:tab><br /><br />
+		</p:accordionPanel>
+		
+			<h1> Composants Carousel de Primefaces</h1>
+			<p:carousel autoPlayInterval="2000" effect="easeInStrong" circular="true"
+			itemStyle="width:200px">
+				<p:graphicImage width="200px" value="/images/senghor.jpg"/>
+				<p:graphicImage width="200px" value="/images/diouf.jpg"/>
+				<p:graphicImage width="200px" value="/images/wade.jpg"/>
+				<p:graphicImage width="200px" value="/images/sall.jpg"/>
+			</p:carousel>
+			<h1> Composants ContentFlow</h1>
+			<p:contentFlow var="image" value="#{etudiantJSFManagedBean.etudiant.images}">
+				<p:graphicImage value="/images/#{image}" styleClass="content"/>
+			</p:contentFlow>
+			<br /><br />
+			<h1> Composant Galleria</h1>
+			<p:galleria var="image" value="#{etudiantJSFManagedBean.etudiant.images}">
+				<p:graphicImage value="/images/#{image}" styleClass="content"/>
+			</p:galleria><br /><br />
+			<h1>Color Picker</h1>
+			<h:form>
+				<p:colorPicker value="#{etudiantJSFManagedBean.etudiant.couleur}" mode="inline"/>
+				<h:commandButton  value="Valider" />
+				Couleur=<h:outputText value="#{etudiantJSFManagedBean.etudiant.couleur}" />
+			</h:form>
+			<h1>Composent Dock de primefaces</h1>
+			<p:dock>
+				<p:menuitem value="Home" icon="/images/home.png" url="#"/>
+				<p:menuitem value="Music" icon="/images/music.jpg" url="#"/>
+				<p:menuitem value="Video" icon="/images/video.jpg" url="#"/>
+				<p:menuitem value="Email" icon="/images/mail.png" url="#"/>
+				<p:menuitem value="Link" icon="/images/link.png" url="#"/>
+				<p:menuitem value="RSS" icon="/images/rss.png" url="#"/>
+				<p:menuitem value="History" icon="/images/history.png" url="#"/>
+				
+			</p:dock><br /><br />
+			<h1>Google maps</h1>
+			<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
+			
+			<p:gmap center="14.721304, -17.496043" zoom="15" type="hybrid" style="width:600px; height:400px"></p:gmap>
+			<script>
+			let map;
+
+			async function initMap() {
+
+			  //@ts-ignore
+
+			  const { Map } = await google.maps.importLibrary("maps");
+
+			  map = new Map(document.getElementById("map"), {
+
+			    center: { lat: 14.721304, lng: -17.496043 },
+
+			    zoom: 15,
+
+			  });
+
+			}
+
+			initMap();
+			</script><br /><br />
+			<h1>Composant Keybord de primefaces</h1>
+			<p:keyboard value="Value">
+			</p:keyboard>
+			
+	</h:body>
+</html>
